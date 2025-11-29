@@ -131,7 +131,8 @@ def apply_dark_ai_theme():
     st.markdown(css, unsafe_allow_html=True)
 
 # Aplicar tema
-apply_blue_black_theme()
+apply_dark_ai_theme()
+
 
 
 
