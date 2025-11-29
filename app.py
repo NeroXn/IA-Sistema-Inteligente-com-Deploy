@@ -17,67 +17,136 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 def apply_blue_black_theme():
+
+    # ========== CSS COMPLETO (AZUL-PRETO) ==========
     css = """
     <style>
+
+    /* ======= BACKGROUND PRINCIPAL ======= */
     section[data-testid="stAppViewContainer"] > div {
-        background: linear-gradient(180deg, #021428 0%, #001229 45%, #000000 100%);
+        background: linear-gradient(180deg, #03101f 0%, #001229 45%, #000000 100%);
         color: #e6f6ff;
     }
+
+    /* ======= SIDEBAR ======= */
     div[data-testid="stSidebar"] > div:first-child {
-        background: linear-gradient(180deg, #001022 0%, #001a33 50%, #000000 100%);
-        color: #dbeeff;
-        border-right: 1px solid rgba(255,255,255,0.04);
+        background: linear-gradient(180deg, #011627 0%, #00192f 50%, #000000 100%);
+        border-right: 1px solid rgba(255,255,255,0.08);
+        color: #cfeaff;
     }
-    h1, h2, h3 { color: #d7f0ff !important; }
-    button[kind], button.css-1emrehy.edgvbvh3 {
+
+    /* ======= TITULOS ======= */
+    h1, h2, h3, h4 {
+        color: #d7f0ff !important;
+        font-weight: 600;
+    }
+
+    /* ====== TABS ====== */
+    button[data-baseweb="tab"] {
+        background: #001a33 !important;
+        color: #d8f2ff !important;
+        border-radius: 8px !important;
+        border: 1px solid #023a57 !important;
+        margin-right: 4px;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        background: #0ea5e9 !important;
+        color: black !important;
+        font-weight: 700 !important;
+    }
+
+    /* ====== MENUS, INPUTS, SELECTS ESCUROS ====== */
+    input, select, textarea {
+        background-color: #0d1b2a !important;
+        color: #e6f6ff !important;
+        border: 1px solid #1a2b3c !important;
+        border-radius: 6px !important;
+    }
+
+    /* ====== number_input container ====== */
+    div[data-testid="stNumberInput"] > div {
+        background-color: #0d1b2a !important;
+        border: 1px solid #1a2b3c !important;
+        border-radius: 6px !important;
+    }
+
+    /* ===== botões + e - do number_input ===== */
+    button[kind="secondary"] {
+        background-color: #0ea5e9 !important;
+        color: black !important;
+        border-radius: 4px !important;
+        font-weight: bold !important;
+    }
+
+    /* CHECKBOX LABEL */
+    label {
+        color: #e6f6ff !important;
+        font-size: 15px !important;
+    }
+
+    /* ====== BOTÕES PRINCIPAIS ====== */
+    button[kind="primary"] {
         background: linear-gradient(180deg,#0ea5e9,#023a57) !important;
         color: white !important;
-        border: none !important;
         border-radius: 8px !important;
+        border: none !important;
+        font-weight: 600 !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
-/* Inputs, selects e number_input ESCUROS */
-input, select, textarea, div[data-baseweb="input"] input {
-    background-color: #0d1b2a !important;
-    color: #e6f6ff !important;
-    border: 1px solid #1a2b3c !important;
-    border-radius: 6px !important;
-}
+    button[kind="primary"]:hover {
+        filter: brightness(1.15);
+    }
 
-/* number_input container */
-div[data-testid="stNumberInput"] > div {
-    background-color: #0d1b2a !important;
-    border: 1px solid #1a2b3c !important;
-    border-radius: 6px !important;
-}
+    /* ====== TABELAS ====== */
+    thead tr th {
+        background: #012c46 !important;
+        color: #dff6ff !important;
+        font-weight: 600 !important;
+    }
+    tbody tr td {
+        background: rgba(255,255,255,0.03) !important;
+        color: #eaf8ff !important;
+    }
 
-/* botões + e - do number_input */
-button[kind="secondary"] {
-    background-color: #0ea5e9 !important;
-    color: white !important;
-    border-radius: 4px !important;
-}
+    /* ====== SLIDER ====== */
+    .stSlider > div > div > div {
+        background-color: #0ea5e9 !important;
+    }
 
-/* checkbox label */
-label {
-    color: #e6f6ff !important;
-}
+    /* ====== MENSAGENS (info, warning, success) ====== */
+    .stAlert, .stInfo, .stWarning, .stSuccess {
+        background-color: rgba(255,255,255,0.05) !important;
+        border-left: 4px solid #0ea5e9 !important;
+        color: #eaf8ff !important;
+    }
 
-    a { color: #7ed7ff !important; }
+    /* LINKS */
+    a {
+        color: #7ed7ff !important;
+        text-decoration: none !important;
+    }
+    a:hover { text-decoration: underline !important; }
+
+    /* GRAFICOS / CANVAS */
+    .element-container .stPlotlyChart, .element-container .stImage {
+        border-radius: 10px;
+    }
+
     </style>
     """
+
     st.markdown(css, unsafe_allow_html=True)
 
-    # RCParams compatíveis com Matplotlib 3.4
+    # ======= Matplotlib Dark Mode =======
     plt.rcParams.update({
         "axes.labelcolor": "#dff6ff",
         "xtick.color": "#dff6ff",
         "ytick.color": "#dff6ff",
-        "figure.facecolor": "#001329",
-        "axes.facecolor": "#001329",
+        "figure.facecolor": "#00111f",
+        "axes.facecolor": "#00111f",
         "axes.edgecolor": "#0ea5e9",
-        "grid.color": "#444444",
+        "grid.color": "#334455"
     })
-
 
 # Aplicar tema
 apply_blue_black_theme()
