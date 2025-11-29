@@ -225,25 +225,15 @@ if st.sidebar.button("Predizer risco"):
     try:
         X_input = input_df[FEATURES]
         pred = pipe.predict(X_input)[0]
-        pred_proba = pipe.predict_proba(X_input)[0][1]  # prob of class 1 (bad)
+        pred_proba = pipe.predict_proba(X_input)[0][1]
+
         label = "ALTO RISCO (mau pagador)" if pred == 1 else "BAIXO RISCO (bom pagador)"
         st.sidebar.markdown(f"## Predição: **{label}**")
         st.sidebar.markdown(f"Probabilidade estimada de mau pagador: **{pred_proba:.2%}**")
-        # explicação simples: mostrar importância local via SHAP (se disponível)
-        with st.spinner("Calculando explicação local (SHAP), se disponível..."):
-            try:
-                import shap
-                explainer = shap.Explainer(pipe.named_steps["clf"], pipe.named_steps["preproc"].transform(X_train))
-                # transformar input
-                X_trans = pipe.named_steps["preproc"].transform(X_input)
-                shap_values = explainer(X_trans)
-                st.sidebar.markdown("Resumo SHAP (valores de contribuição):")
-                shap_html = shap.plots.waterfall(shap_values[0], show=False)
-                st.sidebar.write(" (visualização SHAP não exibida inline neste demo)")
-            except Exception as e:
-                st.sidebar.info("SHAP não disponível ou falha ao computar: " + str(e))
+
     except Exception as e:
-        st.error("Erro ao predizer: " + str(e))
+        st.sidebar.error("Erro ao predizer: " + str(e))
+
 
 st.write("---")
 st.markdown("### Observações finais")
