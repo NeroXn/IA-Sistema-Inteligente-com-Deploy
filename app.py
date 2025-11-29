@@ -29,28 +29,33 @@ Random Forest que prevê se um cliente representa alto ou baixo risco de crédit
 
 
 # =====================================================
-# FUNÇÕES AUXILIARES
+# CARREGAR DADOS
 # =====================================================
-
 @st.cache_data(show_spinner=True)
 def load_data():
     dataset = openml.datasets.get_dataset("credit-g")
     X, y, _, _ = dataset.get_data(dataset_format="dataframe",
                                   target=dataset.default_target_attribute)
+
     df = pd.concat([X, y.rename("target")], axis=1)
     df["target_label"] = df["target"].map({"good": 0, "bad": 1})
     df.drop(columns=["target"], inplace=True)
     return df
 
+df = load_data()
 
-def build_preprocessor(df):
-    cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
-    num_cols = df.select_dtypes(include=["number"]).columns.tolist()
+FEATURES = [c for c in df.columns if c != "target_label"]
 
-    if "target_label" in num_cols:
-        num_cols.remove("target_label")
 
-    preproc = ColumnTransformer(
+# =====================================================
+# FUNÇÕES DE PREPROCESSAMENTO E MODELO
+# =====================================================
+def build_preprocessor(X):
+    """Constrói o ColumnTransformer usando APENAS as colunas de X."""
+    cat_cols = X.select_dtypes(include=["object", "category"]).columns.tolist()
+    num_cols = X.select_dtypes(include=["number"]).columns.tolist()
+
+    return ColumnTransformer(
         transformers=[
             ("num", StandardScaler(), num_cols),
             ("cat", OneHotEncoder(handle_unknown="ignore"), cat_cols)
@@ -58,15 +63,18 @@ def build_preprocessor(df):
         remainder="drop"
     )
 
-    return preproc
-
 
 def train_model(df, features):
     X = df[features]
     y = df["target_label"]
 
-    preproc = build_preprocessor(df)
-    model = RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=-1)
+    preproc = build_preprocessor(X)
+
+    model = RandomForestClassifier(
+        n_estimators=200,
+        random_state=42,
+        n_jobs=-1
+    )
 
     pipe = Pipeline([
         ("preproc", preproc),
@@ -84,25 +92,15 @@ def train_model(df, features):
 
 
 # =====================================================
-# CARREGAR DADOS
-# =====================================================
-df = load_data()
-FEATURES = [c for c in df.columns if c != "target_label"]
-
-st.subheader("Amostra dos dados")
-st.dataframe(df.head())
-
-
-# =====================================================
-# CARREGAR OU TREINAR MODELO
+# TREINAR OU CARREGAR MODELO
 # =====================================================
 if os.path.exists(MODEL_PATH):
     pipe = joblib.load(MODEL_PATH)
-    st.success("Modelo carregado com sucesso.")
+    st.success("Modelo carregado.")
 else:
-    st.warning("Modelo não encontrado. Treinando novo modelo...")
+    st.warning("Modelo não encontrado. Treinando...")
     pipe, X_train, X_test, y_train, y_test = train_model(df, FEATURES)
-    st.success("Modelo treinado e salvo.")
+    st.success("Modelo treinado com sucesso!")
 
 
 # =====================================================
@@ -112,7 +110,6 @@ st.header("Desempenho do Modelo")
 
 X = df[FEATURES]
 y = df["target_label"]
-
 _, X_test, _, y_test = train_test_split(
     X, y, test_size=0.25, stratify=y, random_state=42
 )
@@ -135,12 +132,10 @@ with col2:
     ax.imshow(cm, cmap="Blues")
     ax.set_xticks([0, 1])
     ax.set_yticks([0, 1])
-    ax.set_xlabel("Predito")
-    ax.set_ylabel("Verdadeiro")
 
     for i in range(2):
         for j in range(2):
-            ax.text(j, i, cm[i, j], ha="center", va="center", color="black")
+            ax.text(j, i, cm[i, j], ha="center", va="center")
 
     st.pyplot(fig)
 
@@ -152,13 +147,13 @@ st.text(classification_report(
 
 
 # =====================================================
-# PREDIÇÃO MANUAL VIA CSV
+# PREDIÇÃO VIA CSV
 # =====================================================
 st.header("Predição de Novo Cliente")
 
-uploaded = st.file_uploader("Envie um CSV contendo uma única linha com os atributos.", type=["csv"])
+uploaded = st.file_uploader("Envie um CSV contendo uma linha com os atributos.", type=["csv"])
 
-if uploaded is not None:
+if uploaded:
     try:
         input_df = pd.read_csv(uploaded)
         st.write("Dados recebidos:")
@@ -174,6 +169,7 @@ if uploaded is not None:
         st.write(f"Probabilidade estimada de mau pagador: **{prob:.2%}**")
 
     except Exception as e:
-        st.error("Erro ao processar CSV: " + str(e))
+        st.error(f"Erro ao processar CSV: {e}")
+
 else:
-    st.info("Envie um arquivo CSV para fazer a previsão.")
+    st.info("Envie um CSV para fazer a previsão.")
