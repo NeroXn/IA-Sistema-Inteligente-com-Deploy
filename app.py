@@ -24,7 +24,8 @@ warnings.filterwarnings("ignore")
 st.set_page_config(page_title="Risco de Crédito — Classificação + Regressão", layout="wide")
 
 # Paths
-CLASS_MODEL_PATH = "rf_credit_model.joblib"
+CLASS_MODEL_PATH = "rf_credit_model_v2.joblib"
+
 REG_MODEL_PATH = "rf_reg_model.joblib"
 
 st.title("Avaliação de Risco de Crédito — Classificação e Regressão")
