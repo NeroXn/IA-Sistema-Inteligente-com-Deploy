@@ -20,115 +20,95 @@ def apply_dark_ai_theme():
     css = """
     <style>
 
-    /* ------------------------------
-       FUNDO GERAL — AZUL PETRÓLEO
-    ------------------------------ */
-    section[data-testid="stAppViewContainer"] > div {
-        background: radial-gradient(circle at 30% 20%, #0b1f2e, #07131c 60%, #02070b 100%);
-        color: #e9f1f7;
-        font-family: 'Segoe UI', sans-serif;
+    /* BLOCO PRINCIPAL DO APP */
+    [data-testid="stAppViewContainer"] {
+        background: radial-gradient(circle at 30% 20%, #0b1f2e, #07131c 60%, #02070b 100%) !important;
     }
 
-    /* ------------------------------
-       VIDRO (GLASSMORPHISM)
-    ------------------------------ */
-    .glass {
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.08);
-        box-shadow: 0 8px 18px rgba(0,0,0,0.4);
-        backdrop-filter: blur(8px);
-        padding: 20px;
-        border-radius: 12px;
+    /* SIDEBAR */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #06121c, #03090f 60%, #000000) !important;
+        color: #dce7f3 !important;
+        border-right: 1px solid rgba(0,150,255,0.2);
     }
 
-    /* Aplica vidro em containers principais */
-    div[data-testid="stHeader"],
-    div[data-testid="stToolbar"],
+    /* HEADER */
+    [data-testid="stHeader"] {
+        background: rgba(255,255,255,0.04) !important;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0,150,255,0.25);
+    }
+
+    /* CONTAINER PRINCIPAL COM VIDRO */
     .block-container {
-        background: rgba(255,255,255,0.03) !important;
-        backdrop-filter: blur(6px);
-        border-radius: 12px;
-        padding: 25px;
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 25px !important;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(0,150,255,0.12);
     }
 
-    /* ------------------------------
-       TEXTOS
-    ------------------------------ */
-    h1, h2, h3, h4, h5 {
+    /* TÍTULOS */
+    h1, h2, h3 {
         color: #d8e7f5 !important;
-        text-shadow: 0 0 6px rgba(0,150,255,0.45);
+        text-shadow: 0 0 8px rgba(0,150,255,0.35);
     }
-    p, label, span {
+
+    /* TEXTOS */
+    p, label, span, div, .stMarkdown {
         color: #d8e7f5 !important;
     }
 
-    /* ------------------------------
-       INPUTS — CAMPOS FUTURE
-    ------------------------------ */
-    .stTextInput > div > div > input,
-    .stNumberInput input,
-    .stSelectbox div[data-baseweb="select"] {
+    /* WIDGETS — INPUT */
+    input, textarea, select {
         background: rgba(0, 40, 60, 0.35) !important;
-        color: #d8e7f5 !important;
         border: 1px solid rgba(0,150,255,0.45) !important;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
+        color: #d8e7f5 !important;
     }
 
-    /* ------------------------------
-       BOTÕES ESTILO IA
-    ------------------------------ */
+    /* BOTÕES */
     button[kind="primary"] {
         background: linear-gradient(135deg, #0e4d6b, #0a2f45) !important;
         color: white !important;
-        border-radius: 8px !important;
-        border: 1px solid #2ea8e8 !important;
-        box-shadow: 0 0 10px rgba(30, 170, 255, 0.4);
-    }
-    button[kind="secondary"] {
-        background: rgba(0, 40, 60, 0.25) !important;
-        color: #c9d9e8 !important;
-        border-radius: 6px !important;
-        border: 1px solid rgba(100,150,200,0.3) !important;
+        border-radius: 10px !important;
+        border: 1px solid #26a8ff !important;
+        box-shadow: 0 0 10px rgba(30,150,255,0.5);
     }
 
-    /* ------------------------------
-       SLIDERS
-    ------------------------------ */
-    .stSlider > div > div > div {
-        background: #0a3147 !important;
-    }
-    .stSlider > div > div > div > div {
-        background: #26a8ff !important;
+    button:hover {
+        filter: brightness(1.15) !important;
     }
 
-    /* ------------------------------
-       TABs futuristas
-    ------------------------------ */
+    /* TABELAS */
+    thead tr th {
+        background: #082231 !important;
+        color: #d8e7f5 !important;
+    }
+    tbody tr td {
+        background: rgba(255,255,255,0.04) !important;
+        color: #d8e7f5 !important;
+    }
+
+    /* TABS */
     .stTabs [data-baseweb="tab"] {
         background: rgba(8, 22, 32, 0.45);
         backdrop-filter: blur(4px);
-        padding: 8px 18px;
-        border-radius: 8px;
-        margin-right: 8px;
-        border: 1px solid rgba(50,120,180,0.35);
+        border-radius: 6px;
+        padding: 8px 14px;
+        border: 1px solid rgba(50, 120, 180, 0.25);
     }
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #0e4d6b, #0a2f45);
         border: 1px solid #26a8ff;
-        box-shadow: 0 0 10px rgba(30,150,255,0.5);
-    }
-
-    /* ------------------------------
-       GRAFICOS — TEMA AZUL PETRÓLEO
-    ------------------------------ */
-    /* Remove bordas brancas */
-    .stPlotlyChart, .stPyplot {
-        background: transparent !important;
+        box-shadow: 0 0 10px rgba(30,150,255,0.4);
     }
 
     </style>
     """
     st.markdown(css, unsafe_allow_html=True)
+
 
 # Aplicar tema
 apply_dark_ai_theme()
