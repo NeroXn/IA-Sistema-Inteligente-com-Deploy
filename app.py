@@ -15,9 +15,9 @@ from sklearn.pipeline import Pipeline
 import matplotlib.pyplot as plt
 import openml
 
-# ===============================================
-# CONFIGURAÇÃO INICIAL
-# ===============================================
+# =====================================================
+# CONFIGURAÇÃO
+# =====================================================
 st.set_page_config(page_title="Avaliação de Risco de Crédito", layout="wide")
 MODEL_PATH = "rf_credit_model.joblib"
 
@@ -28,9 +28,9 @@ Random Forest que prevê se um cliente representa alto ou baixo risco de crédit
 """)
 
 
-# ===============================================
+# =====================================================
 # FUNÇÕES AUXILIARES
-# ===============================================
+# =====================================================
 
 @st.cache_data(show_spinner=True)
 def load_data():
@@ -46,6 +46,7 @@ def load_data():
 def build_preprocessor(df):
     cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
     num_cols = df.select_dtypes(include=["number"]).columns.tolist()
+
     if "target_label" in num_cols:
         num_cols.remove("target_label")
 
@@ -57,20 +58,15 @@ def build_preprocessor(df):
         remainder="drop"
     )
 
-    return preproc, num_cols, cat_cols
+    return preproc
 
 
 def train_model(df, features):
     X = df[features]
     y = df["target_label"]
 
-    preproc, num_cols, cat_cols = build_preprocessor(df)
-
-    model = RandomForestClassifier(
-        n_estimators=200,
-        random_state=42,
-        n_jobs=-1
-    )
+    preproc = build_preprocessor(df)
+    model = RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=-1)
 
     pipe = Pipeline([
         ("preproc", preproc),
@@ -87,18 +83,19 @@ def train_model(df, features):
     return pipe, X_train, X_test, y_train, y_test
 
 
-# ===============================================
-# CARREGAMENTO DOS DADOS
-# ===============================================
+# =====================================================
+# CARREGAR DADOS
+# =====================================================
 df = load_data()
 FEATURES = [c for c in df.columns if c != "target_label"]
 
 st.subheader("Amostra dos dados")
 st.dataframe(df.head())
 
-# ===============================================
-# TREINAR OU CARREGAR MODELO
-# ===============================================
+
+# =====================================================
+# CARREGAR OU TREINAR MODELO
+# =====================================================
 if os.path.exists(MODEL_PATH):
     pipe = joblib.load(MODEL_PATH)
     st.success("Modelo carregado com sucesso.")
@@ -107,13 +104,15 @@ else:
     pipe, X_train, X_test, y_train, y_test = train_model(df, FEATURES)
     st.success("Modelo treinado e salvo.")
 
-# ===============================================
+
+# =====================================================
 # AVALIAÇÃO DO MODELO
-# ===============================================
+# =====================================================
 st.header("Desempenho do Modelo")
 
 X = df[FEATURES]
 y = df["target_label"]
+
 _, X_test, _, y_test = train_test_split(
     X, y, test_size=0.25, stratify=y, random_state=42
 )
@@ -146,34 +145,35 @@ with col2:
     st.pyplot(fig)
 
 st.subheader("Relatório de Classificação")
-st.text(classification_report(y_test, y_pred,
-                              target_names=["good (baixo risco)", "bad (alto risco)"]))
+st.text(classification_report(
+    y_test, y_pred,
+    target_names=["good (baixo risco)", "bad (alto risco)"]
+))
 
 
-# ===============================================
-# PREDIÇÃO MANUAL
-# ===============================================
+# =====================================================
+# PREDIÇÃO MANUAL VIA CSV
+# =====================================================
 st.header("Predição de Novo Cliente")
 
-uploaded = st.file_uploader("Envie um CSV com uma linha (inputs)", type=["csv"])
+uploaded = st.file_uploader("Envie um CSV contendo uma única linha com os atributos.", type=["csv"])
 
 if uploaded is not None:
     try:
         input_df = pd.read_csv(uploaded)
-        st.write("Dados carregados:")
+        st.write("Dados recebidos:")
         st.dataframe(input_df)
 
         X_input = input_df[FEATURES]
         pred = pipe.predict(X_input)[0]
-        proba = pipe.predict_proba(X_input)[0][1]
+        prob = pipe.predict_proba(X_input)[0][1]
 
         label = "ALTO RISCO" if pred == 1 else "BAIXO RISCO"
 
         st.subheader(f"Resultado: **{label}**")
-        st.write(f"Probabilidade de mau pagador: **{proba:.2%}**")
+        st.write(f"Probabilidade estimada de mau pagador: **{prob:.2%}**")
 
     except Exception as e:
         st.error("Erro ao processar CSV: " + str(e))
-
 else:
-    st.info("Envie um CSV contendo os atributos do dataset para fazer a predição.")
+    st.info("Envie um arquivo CSV para fazer a previsão.")
