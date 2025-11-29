@@ -52,7 +52,7 @@ def build_preprocessor(df):
     preproc = ColumnTransformer(
         transformers=[
             ("num", StandardScaler(), num_cols),
-            ("cat", OneHotEncoder(handle_unknown="ignore", sparse=False), cat_cols)
+            ("cat", OneHotEncoder(handle_unknown="ignore"), cat_cols)
         ],
         remainder="drop"
     )
