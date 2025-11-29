@@ -35,11 +35,33 @@ def apply_blue_black_theme():
         border: none !important;
         border-radius: 8px !important;
     }
-    input, textarea, select {
-        background: rgba(255,255,255,0.05) !important;
-        color: #eaf8ff !important;
-        border: 1px solid rgba(255,255,255,0.2) !important;
-    }
+/* Inputs, selects e number_input ESCUROS */
+input, select, textarea, div[data-baseweb="input"] input {
+    background-color: #0d1b2a !important;
+    color: #e6f6ff !important;
+    border: 1px solid #1a2b3c !important;
+    border-radius: 6px !important;
+}
+
+/* number_input container */
+div[data-testid="stNumberInput"] > div {
+    background-color: #0d1b2a !important;
+    border: 1px solid #1a2b3c !important;
+    border-radius: 6px !important;
+}
+
+/* botões + e - do number_input */
+button[kind="secondary"] {
+    background-color: #0ea5e9 !important;
+    color: white !important;
+    border-radius: 4px !important;
+}
+
+/* checkbox label */
+label {
+    color: #e6f6ff !important;
+}
+
     a { color: #7ed7ff !important; }
     </style>
     """
