@@ -92,15 +92,26 @@ def train_model(df, features):
 
 
 # =====================================================
-# TREINAR OU CARREGAR MODELO
+# TREINAR OU CARREGAR MODELO (VERSÃO À PROVA DE ERROS)
 # =====================================================
+pipe = None
+
+# Tentar carregar modelo salvo
 if os.path.exists(MODEL_PATH):
-    pipe = joblib.load(MODEL_PATH)
-    st.success("Modelo carregado.")
+    try:
+        pipe = joblib.load(MODEL_PATH)
+        st.success("Modelo carregado com sucesso!")
+    except Exception as e:
+        st.error("Falha ao carregar o modelo salvo. Ele será recriado.")
+        pipe = None
 else:
-    st.warning("Modelo não encontrado. Treinando...")
+    st.warning("Nenhum modelo encontrado. O sistema irá treinar o modelo agora.")
+
+# Se não conseguimos carregar, treinamos
+if pipe is None:
     pipe, X_train, X_test, y_train, y_test = train_model(df, FEATURES)
-    st.success("Modelo treinado com sucesso!")
+    st.success("Novo modelo treinado e salvo!")
+
 
 
 # =====================================================
