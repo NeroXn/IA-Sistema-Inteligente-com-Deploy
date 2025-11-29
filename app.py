@@ -11,6 +11,122 @@ from sklearn.metrics import (
     confusion_matrix, classification_report,
     mean_squared_error, mean_absolute_error, r2_score
 )
+
+# ====== Tema azul-preto — injeta CSS e ajusta matplotlib ======
+import streamlit as st
+import matplotlib.pyplot as plt
+
+def apply_blue_black_theme():
+    # CSS principal: fundo, sidebar, cabeçalhos, botões, tabelas
+    css = """
+    <style>
+    /* Aplica gradient de fundo à aplicação inteira */
+    section[data-testid="stAppViewContainer"] > div {
+        background: linear-gradient(180deg, #021428 0%, #001229 45%, #000000 100%);
+        color: #e6f6ff;
+    }
+
+    /* Container principal */
+    .stApp, .main {
+        color: #e6f6ff !important;
+    }
+
+    /* Sidebar com gradient mais sutil */
+    div[data-testid="stSidebar"] > div:first-child {
+        background: linear-gradient(180deg, #001022 0%, #001a33 50%, #000000 100%);
+        color: #dbeeff;
+        border-right: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* Cabeçalhos */
+    h1, h2, h3 {
+        color: #d7f0ff !important;
+    }
+
+    /* Cartões e containers (blocos) */
+    .css-1d391kg, .css-1v0mbdj { 
+        background: linear-gradient(180deg, rgba(2,20,40,0.45), rgba(0,0,0,0.35));
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        color: #eaf8ff;
+    }
+
+    /* Botões principais (estiliza <button> dentro do Streamlit) */
+    button[kind] , button.css-1emrehy.edgvbvh3 {
+        background: linear-gradient(180deg,#0ea5e9,#023a57) !important;
+        color: white !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(2,10,30,0.6) !important;
+        border-radius: 8px !important;
+        padding: 8px 14px !important;
+    }
+    button:hover {
+        filter: brightness(1.08);
+    }
+
+    /* Inputs, selects e textareas */
+    input, textarea, select {
+        background: rgba(255,255,255,0.03) !important;
+        color: #eaf8ff !important;
+        border: 1px solid rgba(255,255,255,0.06) !important;
+        border-radius: 6px !important;
+    }
+
+    /* Tabelas: headers em azul escuro */
+    thead tr th {
+        background: linear-gradient(90deg,#01324a,#001a2b) !important;
+        color: #dff6ff !important;
+    }
+    tbody tr td {
+        background: rgba(255,255,255,0.02) !important;
+        color: #eaf8ff !important;
+    }
+
+    /* Mensagens de alerta/info */
+    .stAlert, .stInfo, .stWarning, .stSuccess {
+        color: #eaf8ff !important;
+    }
+
+    /* Pequeno ajuste para gráficos em PNG/SVG */
+    .element-container .stPlotlyChart, .element-container .stImage {
+        border-radius: 10px;
+    }
+
+    /* Forçar contraste em links */
+    a {
+        color: #7ed7ff !important;
+    }
+
+    /* Responsividade: reduzir sombras em telas pequenas */
+    @media (max-width: 600px) {
+        .css-1d391kg, .css-1v0mbdj {
+            box-shadow: none;
+            border-radius: 6px;
+        }
+    }
+    </style>
+    """
+
+    st.markdown(css, unsafe_allow_html=True)
+
+    # Matplotlib styling para se adequar ao tema azul-preto
+    plt.rcParams.update({
+        "text.color": "#eaf8ff",
+        "axes.labelcolor": "#dff6ff",
+        "xtick.color": "#dff6ff",
+        "ytick.color": "#dff6ff",
+        "axes.facecolor": "#001329",
+        "figure.facecolor": "#001329",
+        "axes.edgecolor": "#0ea5e9",
+        "grid.color": "rgba(255,255,255,0.06)",
+        "font.size": 11
+    })
+
+# Aplicar tema
+apply_blue_black_theme()
+
+
+
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
