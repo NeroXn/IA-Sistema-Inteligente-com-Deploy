@@ -17,13 +17,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 def apply_blue_black_theme():
-section[data-testid="stAppViewContainer"] > div {
-    background:
-        linear-gradient(90deg, rgba(0,255,255,0.07) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(0,255,255,0.07) 1px, transparent 1px),
-        #000814;
-    background-size: 40px 40px;
-}
+
 
     # ========== CSS COMPLETO (AZUL-PRETO) ==========
     css = """
@@ -34,7 +28,13 @@ section[data-testid="stAppViewContainer"] > div {
         background: linear-gradient(180deg, #03101f 0%, #001229 45%, #000000 100%);
         color: #e6f6ff;
     }
-
+section[data-testid="stAppViewContainer"] > div {
+    background:
+        linear-gradient(90deg, rgba(0,255,255,0.07) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(0,255,255,0.07) 1px, transparent 1px),
+        #000814;
+    background-size: 40px 40px;
+}
     /* ======= SIDEBAR ======= */
     div[data-testid="stSidebar"] > div:first-child {
         background: linear-gradient(180deg, #011627 0%, #00192f 50%, #000000 100%);
