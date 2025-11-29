@@ -16,144 +16,119 @@ from sklearn.metrics import (
 import streamlit as st
 import matplotlib.pyplot as plt
 
-def apply_blue_black_theme():
-
-
-    # ========== CSS COMPLETO (AZUL-PRETO) ==========
+def apply_dark_ai_theme():
     css = """
     <style>
 
-    /* ======= BACKGROUND PRINCIPAL ======= */
+    /* ------------------------------
+       FUNDO GERAL — AZUL PETRÓLEO
+    ------------------------------ */
     section[data-testid="stAppViewContainer"] > div {
-        background: linear-gradient(180deg, #03101f 0%, #001229 45%, #000000 100%);
-        color: #e6f6ff;
-    }
-section[data-testid="stAppViewContainer"] > div {
-    background:
-        linear-gradient(90deg, rgba(0,255,255,0.07) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(0,255,255,0.07) 1px, transparent 1px),
-        #000814;
-    background-size: 40px 40px;
-}
-    /* ======= SIDEBAR ======= */
-    div[data-testid="stSidebar"] > div:first-child {
-        background: linear-gradient(180deg, #011627 0%, #00192f 50%, #000000 100%);
-        border-right: 1px solid rgba(255,255,255,0.08);
-        color: #cfeaff;
+        background: radial-gradient(circle at 30% 20%, #0b1f2e, #07131c 60%, #02070b 100%);
+        color: #e9f1f7;
+        font-family: 'Segoe UI', sans-serif;
     }
 
-    /* ======= TITULOS ======= */
-    h1, h2, h3, h4 {
-        color: #d7f0ff !important;
-        font-weight: 600;
+    /* ------------------------------
+       VIDRO (GLASSMORPHISM)
+    ------------------------------ */
+    .glass {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+        backdrop-filter: blur(8px);
+        padding: 20px;
+        border-radius: 12px;
     }
 
-    /* ====== TABS ====== */
-    button[data-baseweb="tab"] {
-        background: #001a33 !important;
-        color: #d8f2ff !important;
-        border-radius: 8px !important;
-        border: 1px solid #023a57 !important;
-        margin-right: 4px;
-    }
-    button[data-baseweb="tab"][aria-selected="true"] {
-        background: #0ea5e9 !important;
-        color: black !important;
-        font-weight: 700 !important;
+    /* Aplica vidro em containers principais */
+    div[data-testid="stHeader"],
+    div[data-testid="stToolbar"],
+    .block-container {
+        background: rgba(255,255,255,0.03) !important;
+        backdrop-filter: blur(6px);
+        border-radius: 12px;
+        padding: 25px;
     }
 
-    /* ====== MENUS, INPUTS, SELECTS ESCUROS ====== */
-    input, select, textarea {
-        background-color: #0d1b2a !important;
-        color: #e6f6ff !important;
-        border: 1px solid #1a2b3c !important;
+    /* ------------------------------
+       TEXTOS
+    ------------------------------ */
+    h1, h2, h3, h4, h5 {
+        color: #d8e7f5 !important;
+        text-shadow: 0 0 6px rgba(0,150,255,0.45);
+    }
+    p, label, span {
+        color: #d8e7f5 !important;
+    }
+
+    /* ------------------------------
+       INPUTS — CAMPOS FUTURE
+    ------------------------------ */
+    .stTextInput > div > div > input,
+    .stNumberInput input,
+    .stSelectbox div[data-baseweb="select"] {
+        background: rgba(0, 40, 60, 0.35) !important;
+        color: #d8e7f5 !important;
+        border: 1px solid rgba(0,150,255,0.45) !important;
         border-radius: 6px !important;
     }
 
-    /* ====== number_input container ====== */
-    div[data-testid="stNumberInput"] > div {
-        background-color: #0d1b2a !important;
-        border: 1px solid #1a2b3c !important;
-        border-radius: 6px !important;
-    }
-
-    /* ===== botões + e - do number_input ===== */
-    button[kind="secondary"] {
-        background-color: #0ea5e9 !important;
-        color: black !important;
-        border-radius: 4px !important;
-        font-weight: bold !important;
-    }
-
-    /* CHECKBOX LABEL */
-    label {
-        color: #e6f6ff !important;
-        font-size: 15px !important;
-    }
-
-    /* ====== BOTÕES PRINCIPAIS ====== */
+    /* ------------------------------
+       BOTÕES ESTILO IA
+    ------------------------------ */
     button[kind="primary"] {
-        background: linear-gradient(180deg,#0ea5e9,#023a57) !important;
+        background: linear-gradient(135deg, #0e4d6b, #0a2f45) !important;
         color: white !important;
         border-radius: 8px !important;
-        border: none !important;
-        font-weight: 600 !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        border: 1px solid #2ea8e8 !important;
+        box-shadow: 0 0 10px rgba(30, 170, 255, 0.4);
     }
-    button[kind="primary"]:hover {
-        filter: brightness(1.15);
-    }
-
-    /* ====== TABELAS ====== */
-    thead tr th {
-        background: #012c46 !important;
-        color: #dff6ff !important;
-        font-weight: 600 !important;
-    }
-    tbody tr td {
-        background: rgba(255,255,255,0.03) !important;
-        color: #eaf8ff !important;
+    button[kind="secondary"] {
+        background: rgba(0, 40, 60, 0.25) !important;
+        color: #c9d9e8 !important;
+        border-radius: 6px !important;
+        border: 1px solid rgba(100,150,200,0.3) !important;
     }
 
-    /* ====== SLIDER ====== */
+    /* ------------------------------
+       SLIDERS
+    ------------------------------ */
     .stSlider > div > div > div {
-        background-color: #0ea5e9 !important;
+        background: #0a3147 !important;
+    }
+    .stSlider > div > div > div > div {
+        background: #26a8ff !important;
     }
 
-    /* ====== MENSAGENS (info, warning, success) ====== */
-    .stAlert, .stInfo, .stWarning, .stSuccess {
-        background-color: rgba(255,255,255,0.05) !important;
-        border-left: 4px solid #0ea5e9 !important;
-        color: #eaf8ff !important;
+    /* ------------------------------
+       TABs futuristas
+    ------------------------------ */
+    .stTabs [data-baseweb="tab"] {
+        background: rgba(8, 22, 32, 0.45);
+        backdrop-filter: blur(4px);
+        padding: 8px 18px;
+        border-radius: 8px;
+        margin-right: 8px;
+        border: 1px solid rgba(50,120,180,0.35);
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #0e4d6b, #0a2f45);
+        border: 1px solid #26a8ff;
+        box-shadow: 0 0 10px rgba(30,150,255,0.5);
     }
 
-    /* LINKS */
-    a {
-        color: #7ed7ff !important;
-        text-decoration: none !important;
-    }
-    a:hover { text-decoration: underline !important; }
-
-    /* GRAFICOS / CANVAS */
-    .element-container .stPlotlyChart, .element-container .stImage {
-        border-radius: 10px;
+    /* ------------------------------
+       GRAFICOS — TEMA AZUL PETRÓLEO
+    ------------------------------ */
+    /* Remove bordas brancas */
+    .stPlotlyChart, .stPyplot {
+        background: transparent !important;
     }
 
     </style>
     """
-
     st.markdown(css, unsafe_allow_html=True)
-
-    # ======= Matplotlib Dark Mode =======
-    plt.rcParams.update({
-        "axes.labelcolor": "#dff6ff",
-        "xtick.color": "#dff6ff",
-        "ytick.color": "#dff6ff",
-        "figure.facecolor": "#00111f",
-        "axes.facecolor": "#00111f",
-        "axes.edgecolor": "#0ea5e9",
-        "grid.color": "#334455"
-    })
 
 # Aplicar tema
 apply_blue_black_theme()
