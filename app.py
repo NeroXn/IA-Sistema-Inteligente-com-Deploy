@@ -290,7 +290,7 @@ with tab1:
         pipe_temp.fit(X_train, y_train)
         pipe_clf = pipe_temp
 
-    # ============================================================
+       # ============================================================
     # AVALIAÇÃO
     # ============================================================
     y_pred = pipe_clf.predict(X_test)
@@ -325,9 +325,8 @@ with tab1:
     plot_feature_importance(pipe_clf, X_test)
 
     # ============================================================
-    # PREVISÃO PARA NOVOS CLIENTES
+    # PREVISÃO PARA NOVOS CLIENTES (UPLOAD CSV)
     # ============================================================
-
     st.markdown("---")
     st.subheader("Predição (upload CSV)")
     uploaded = st.file_uploader("Envie um CSV para classificação", type=["csv"])
@@ -335,32 +334,36 @@ with tab1:
     if uploaded:
         input_df = pd.read_csv(uploaded)
 
-        # garantir colunas ausentes
-       for col in FEATURES:
-    if col not in input_df.columns:
-        if df[col].dtype.name in ["object", "category"]:
-            # Preencher categórica
-            input_df[col] = df[col].mode().iloc[0]
-        else:
-            # Preencher numérica
-            input_df[col] = df[col].median()
+        # completar colunas ausentes
+        for col in FEATURES:
+            if col not in input_df.columns:
 
-# Garante que o tipo da coluna bate com o do dataset original
-for col in FEATURES:
-    if df[col].dtype.name in ["object", "category"]:
-        input_df[col] = input_df[col].astype("object")
-    else:
-        input_df[col] = pd.to_numeric(input_df[col], errors="coerce")
+                # Se coluna for categórica → usar moda
+                if df[col].dtype.name in ["object", "category"]:
+                    input_df[col] = df[col].mode().iloc[0]
 
+                # senão → mediana
+                else:
+                    input_df[col] = df[col].median()
+
+        # garantir tipos corretos
+        for col in FEATURES:
+            if df[col].dtype.name in ["object", "category"]:
+                input_df[col] = input_df[col].astype("object")
+            else:
+                input_df[col] = pd.to_numeric(input_df[col], errors="coerce")
 
         X_input = input_df[FEATURES]
         preds = pipe_clf.predict(X_input)
-        probas = pipe_clf.predict_proba(X_input)[:,1]
+        probas = pipe_clf.predict_proba(X_input)[:, 1]
 
         out = input_df.copy()
-        out["pred"] = np.where(preds==1, "ALTO RISCO", "BAIXO RISCO")
+        out["pred"] = np.where(preds == 1, "ALTO RISCO", "BAIXO RISCO")
         out["prob_bad"] = probas
+
+        st.subheader("Resultado da Predição")
         st.dataframe(out)
+
 
 
 # ----------------------------
