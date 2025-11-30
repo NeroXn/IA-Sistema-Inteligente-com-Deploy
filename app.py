@@ -435,13 +435,19 @@ with tab2:
                 st.success("Modelo de regressão treinado e salvo.")
 
                 # predict + metrics
-                yr_pred = pipe_r.predict(Xr_test)
-                rmse = mean_squared_error(yr_test, yr_pred, squared=False)
-                mae = mean_absolute_error(yr_test, yr_pred)
-                r2 = r2_score(yr_test, yr_pred)
-                st.write(f"RMSE: {rmse:.4f}")
-                st.write(f"MAE: {mae:.4f}")
-                st.write(f"R2: {r2:.4f}")
+              yr_pred = pipe_r.predict(Xr_test)
+
+# calcula MSE e RMSE de forma compatível
+mse = mean_squared_error(yr_test, yr_pred)
+rmse = mse ** 0.5
+
+mae = mean_absolute_error(yr_test, yr_pred)
+r2 = r2_score(yr_test, yr_pred)
+
+st.write(f"RMSE: {rmse:.4f}")
+st.write(f"MAE: {mae:.4f}")
+st.write(f"R2: {r2:.4f}")
+
 
                 # plot predicted vs real
                 fig, ax = plt.subplots()
