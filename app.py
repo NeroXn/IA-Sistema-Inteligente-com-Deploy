@@ -336,9 +336,22 @@ with tab1:
         input_df = pd.read_csv(uploaded)
 
         # garantir colunas ausentes
-        for col in FEATURES:
-            if col not in input_df.columns:
-                input_df[col] = df[col].mode().iloc[0] if df[col].dtype == "O" else df[col].median()
+       for col in FEATURES:
+    if col not in input_df.columns:
+        if df[col].dtype.name in ["object", "category"]:
+            # Preencher categórica
+            input_df[col] = df[col].mode().iloc[0]
+        else:
+            # Preencher numérica
+            input_df[col] = df[col].median()
+
+# Garante que o tipo da coluna bate com o do dataset original
+for col in FEATURES:
+    if df[col].dtype.name in ["object", "category"]:
+        input_df[col] = input_df[col].astype("object")
+    else:
+        input_df[col] = pd.to_numeric(input_df[col], errors="coerce")
+
 
         X_input = input_df[FEATURES]
         preds = pipe_clf.predict(X_input)
