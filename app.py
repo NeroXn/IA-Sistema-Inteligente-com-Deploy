@@ -303,11 +303,10 @@ with tab1:
         st.write(f"Precisão (BAD): {precision_score(y_test, y_pred):.4f}")
         st.write(f"Recall (BAD): {recall_score(y_test, y_pred):.4f}")
         st.write(f"F1-score (BAD): {f1_score(y_test, y_pred):.4f}")
-
 with col2:
     st.subheader("Matriz de Confusão")
-    cm = confusion_matrix(y_test, y_pred)
 
+    cm = confusion_matrix(y_test, y_pred)
     fig, ax = plt.subplots()
     im = ax.imshow(cm, cmap="Blues")
 
@@ -327,6 +326,7 @@ with col2:
             ax.text(j, i, cm[i, j], ha="center", va="center", color="white")
 
     st.pyplot(fig)
+
 
         st.pyplot(fig)
 
