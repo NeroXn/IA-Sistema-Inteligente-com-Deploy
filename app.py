@@ -83,6 +83,85 @@ def apply_dark_ai_theme():
     </style>
     """
     st.markdown(css, unsafe_allow_html=True)
+def apply_dark_ai_theme():
+    css = """
+    <style>
+
+    /* FORÇA o fundo principal (app inteiro) */
+    html, body, [data-testid="stAppViewContainer"], .main, .block-container {
+        background: radial-gradient(circle at 30% 20%, #06131f, #040b11 70%, #010408 100%) !important;
+        color: #eaf3ff !important;
+    }
+
+    /* REMOVE QUALQUER FUNDO BRANCO DO STREAMLIT */
+    [data-testid="stAppViewContainer"]::before,
+    [data-testid="stAppViewContainer"] * {
+        background-color: transparent !important;
+    }
+
+    /* ÁREA LATERAL (sidebar) */
+    section[data-testid="stSidebar"] {
+        background: rgba(0, 0, 0, 0.45) !important;
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    section[data-testid="stSidebar"] * {
+        color: #eaf3ff !important;
+    }
+
+    /* CARTÕES E CONTAINERS (glassmorphism) */
+    .block-container, .stCard, .glass {
+        background: rgba(255,255,255,0.06) !important;
+        border: 1px solid rgba(255,255,255,0.09) !important;
+        backdrop-filter: blur(8px);
+        border-radius: 14px;
+    }
+
+    /* TÍTULOS E TEXTOS */
+    h1, h2, h3, h4, label, p, span, .stMarkdown {
+        color: #eaf3ff !important;
+    }
+
+    /* INPUTS */
+    input, textarea, select, .stTextInput input {
+        background: rgba(255,255,255,0.10) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255,255,255,0.18) !important;
+    }
+
+    ::placeholder {
+        color: #d1e1ff !important;
+        opacity: 1 !important;
+    }
+
+    /* SELECTBOX */
+    div[data-baseweb="select"] * {
+        color: white !important;
+    }
+
+    /* BOTÕES */
+    .stButton > button {
+        background: rgba(0, 80, 160, 0.5) !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.20) !important;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    /* TABS */
+    .stTabs [data-baseweb="tab"] {
+        background: rgba(255,255,255,0.05) !important;
+        color: #b7ccff !important;
+    }
+    .stTabs [aria-selected="true"] {
+        background: rgba(0, 80, 160, 0.4) !important;
+        color: white !important;
+        font-weight: bold;
+    }
+
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
 
 
 
