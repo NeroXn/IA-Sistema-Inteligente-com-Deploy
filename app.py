@@ -20,89 +20,103 @@ def apply_dark_ai_theme():
     css = """
     <style>
 
-    /* BLOCO PRINCIPAL DO APP */
-    [data-testid="stAppViewContainer"] {
-        background: radial-gradient(circle at 30% 20%, #0b1f2e, #07131c 60%, #02070b 100%) !important;
+    /* ------------------------------
+       FUNDO GERAL — AZUL PETRÓLEO
+    ------------------------------ */
+    section[data-testid="stAppViewContainer"] > div {
+        background: radial-gradient(circle at 30% 20%, #0b1f2e, #07131c 60%, #02070b 100%);
+        color: #e9f1f7 !important;
+        font-family: 'Segoe UI', sans-serif;
     }
 
-    /* SIDEBAR */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #06121c, #03090f 60%, #000000) !important;
-        color: #dce7f3 !important;
-        border-right: 1px solid rgba(0,150,255,0.2);
+    /* ------------------------------
+       VIDRO (GLASSMORPHISM)
+    ------------------------------ */
+    .glass, .block-container {
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+        backdrop-filter: blur(8px);
+        border-radius: 12px;
     }
 
-    /* HEADER */
-    [data-testid="stHeader"] {
-        background: rgba(255,255,255,0.04) !important;
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(0,150,255,0.25);
-    }
-
-    /* CONTAINER PRINCIPAL COM VIDRO */
-    .block-container {
-        background: rgba(255, 255, 255, 0.03) !important;
-        backdrop-filter: blur(10px);
-        border-radius: 16px;
-        padding: 25px !important;
-        margin-top: 20px;
-        box-shadow: 0 0 30px rgba(0,150,255,0.12);
-    }
-
-    /* TÍTULOS */
-    h1, h2, h3 {
+    /* ------------------------------
+       TEXTOS
+    ------------------------------ */
+    h1, h2, h3, h4, h5 {
         color: #d8e7f5 !important;
-        text-shadow: 0 0 8px rgba(0,150,255,0.35);
+        text-shadow: 0 0 6px rgba(0,150,255,0.40);
     }
-
-    /* TEXTOS */
-    p, label, span, div, .stMarkdown {
+    p, label, span, .stMarkdown {
         color: #d8e7f5 !important;
     }
 
-    /* WIDGETS — INPUT */
-    input, textarea, select {
+    /* ------------------------------
+       INPUTS — MAIS VISÍVEIS
+    ------------------------------ */
+    input, textarea, select, .stTextInput > div > div > input {
         background: rgba(0, 40, 60, 0.35) !important;
-        border: 1px solid rgba(0,150,255,0.45) !important;
-        border-radius: 8px !important;
-        color: #d8e7f5 !important;
+        color: #f0f6ff !important;        /* 🔥 TEXTO MAIS CLARO */
+        border: 1px solid rgba(0,150,255,0.55) !important;
+        border-radius: 6px !important;
+        font-weight: 600 !important;      /* 🔥 TEXTO MAIS GROSSO */
     }
 
-    /* BOTÕES */
-    button[kind="primary"] {
+    /* Placeholders mais visíveis */
+    ::placeholder {
+        color: #bcd0e0 !important;
+        opacity: 1 !important;
+    }
+
+    /* ------------------------------
+       SELECTBOX (texto mais escuro)
+    ------------------------------ */
+    div[data-baseweb="select"] * {
+        color: #f0f6ff !important;        /* 🔥 melhora MUITO a visualização */
+        font-weight: 600 !important;
+    }
+
+    /* ------------------------------
+       BOTÕES — MAIS LEGÍVEIS
+    ------------------------------ */
+    button[kind="primary"], .stButton > button {
         background: linear-gradient(135deg, #0e4d6b, #0a2f45) !important;
-        color: white !important;
-        border-radius: 10px !important;
-        border: 1px solid #26a8ff !important;
-        box-shadow: 0 0 10px rgba(30,150,255,0.5);
+        color: #ffffff !important;        /* 🔥 TEXTO BRANCO */
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+        border: 1px solid #2ea8e8 !important;
+        box-shadow: 0 0 10px rgba(30, 170, 255, 0.4);
     }
 
     button:hover {
-        filter: brightness(1.15) !important;
+        filter: brightness(1.15);
     }
 
-    /* TABELAS */
-    thead tr th {
-        background: #082231 !important;
-        color: #d8e7f5 !important;
-    }
-    tbody tr td {
-        background: rgba(255,255,255,0.04) !important;
-        color: #d8e7f5 !important;
+    /* Botões secundários */
+    button[kind="secondary"] {
+        background: rgba(0,40,60,0.35) !important;
+        color: #f0f6ff !important;
+        font-weight: 600 !important;
+        border: 1px solid rgba(100,150,200,0.45) !important;
     }
 
-    /* TABS */
+    /* ------------------------------
+       TABS — texto mais claro
+    ------------------------------ */
     .stTabs [data-baseweb="tab"] {
-        background: rgba(8, 22, 32, 0.45);
-        backdrop-filter: blur(4px);
-        border-radius: 6px;
-        padding: 8px 14px;
-        border: 1px solid rgba(50, 120, 180, 0.25);
+        color: #d0e6ff !important;       /* 🔥 texto visível */
+        font-weight: 600 !important;
     }
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #0e4d6b, #0a2f45);
-        border: 1px solid #26a8ff;
-        box-shadow: 0 0 10px rgba(30,150,255,0.4);
+        color: white !important;
+        font-weight: 700 !important;
+    }
+
+    /* ------------------------------
+       GRÁFICOS — Ajuste de fundo
+    ------------------------------ */
+    .stPyplot, .stPlotlyChart, .stImage {
+        background: transparent !important;
     }
 
     </style>
