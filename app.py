@@ -311,7 +311,6 @@ with col2:
     fig, ax = plt.subplots()
     im = ax.imshow(cm, cmap="Blues")
 
-    # Rótulos dos eixos
     ax.set_xlabel("Predição", color="white")
     ax.set_ylabel("Valor real", color="white")
 
@@ -321,63 +320,61 @@ with col2:
     ax.set_xticklabels(["0 = GOOD", "1 = BAD"])
     ax.set_yticklabels(["0 = GOOD", "1 = BAD"])
 
-    # Inserir valores dentro da matriz
     for i in range(cm.shape[0]):
         for j in range(cm.shape[1]):
             ax.text(j, i, cm[i, j], ha="center", va="center", color="white")
 
     st.pyplot(fig)
 
-# Agora volta para nível normal
+# ============================================================
+# RELATÓRIO
+# ============================================================
 st.subheader("Relatório de Classificação")
 st.text(classification_report(
     y_test, y_pred,
     target_names=["good (baixo risco)", "bad (alto risco)"]
 ))
 
+# ============================================================
+# IMPORTÂNCIA DAS FEATURES
+# ============================================================
 st.subheader("Importância das Features")
 plot_feature_importance(pipe_clf, X_test)
 
+# ============================================================
+# PREVISÃO PARA NOVOS CLIENTES (UPLOAD CSV)
+# ============================================================
+st.markdown("---")
+st.subheader("Predição (upload CSV)")
 
-    # ============================================================
-    # PREVISÃO PARA NOVOS CLIENTES (UPLOAD CSV)
-    # ============================================================
-    st.markdown("---")
-    st.subheader("Predição (upload CSV)")
-    uploaded = st.file_uploader("Envie um CSV para classificação", type=["csv"])
+uploaded = st.file_uploader("Envie um CSV para classificação", type=["csv"])
 
-    if uploaded:
-        input_df = pd.read_csv(uploaded)
+if uploaded:
+    input_df = pd.read_csv(uploaded)
 
-        # completar colunas ausentes
-        for col in FEATURES:
-            if col not in input_df.columns:
-
-                # Se coluna for categórica → usar moda
-                if df[col].dtype.name in ["object", "category"]:
-                    input_df[col] = df[col].mode().iloc[0]
-
-                # senão → mediana
-                else:
-                    input_df[col] = df[col].median()
-
-        # garantir tipos corretos
-        for col in FEATURES:
+    for col in FEATURES:
+        if col not in input_df.columns:
             if df[col].dtype.name in ["object", "category"]:
-                input_df[col] = input_df[col].astype("object")
+                input_df[col] = df[col].mode().iloc[0]
             else:
-                input_df[col] = pd.to_numeric(input_df[col], errors="coerce")
+                input_df[col] = df[col].median()
 
-        X_input = input_df[FEATURES]
-        preds = pipe_clf.predict(X_input)
-        probas = pipe_clf.predict_proba(X_input)[:, 1]
+    for col in FEATURES:
+        if df[col].dtype.name in ["object", "category"]:
+            input_df[col] = input_df[col].astype("object")
+        else:
+            input_df[col] = pd.to_numeric(input_df[col], errors="coerce")
 
-        out = input_df.copy()
-        out["pred"] = np.where(preds == 1, "ALTO RISCO", "BAIXO RISCO")
-        out["prob_bad"] = probas
+    X_input = input_df[FEATURES]
+    preds = pipe_clf.predict(X_input)
+    probas = pipe_clf.predict_proba(X_input)[:, 1]
 
-        st.subheader("Resultado da Predição")
-        st.dataframe(out)
+    out = input_df.copy()
+    out["pred"] = np.where(preds == 1, "ALTO RISCO", "BAIXO RISCO")
+    out["prob_bad"] = probas
+
+    st.subheader("Resultado da Predição")
+    st.dataframe(out)
 
 
 
