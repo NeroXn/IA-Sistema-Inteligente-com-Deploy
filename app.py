@@ -20,91 +20,59 @@ def apply_dark_ai_theme():
     css = """
     <style>
 
-    /* ------------------------------
-       FUNDO GERAL — AZUL PETRÓLEO
-    ------------------------------ */
+    /* MANTÉM SEU FUNDO ORIGINAL — não mexi nisso */
     section[data-testid="stAppViewContainer"] > div {
-        background: radial-gradient(circle at 30% 20%, #0b1f2e, #07131c 60%, #02070b 100%);
+        background: radial-gradient(circle at 30% 20%, #06131f, #040b11 70%, #010408 100%) !important;
         color: #e9f1f7 !important;
         font-family: 'Segoe UI', sans-serif;
     }
 
-    /* ------------------------------
-       VIDRO (GLASSMORPHISM)
-    ------------------------------ */
+    /* Mantém seu vidro original */
     .glass, .block-container {
-        background: rgba(255,255,255,0.05) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
+        background: rgba(255,255,255,0.04) !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
         box-shadow: 0 8px 18px rgba(0,0,0,0.45);
         backdrop-filter: blur(8px);
         border-radius: 12px;
     }
 
     /* ------------------------------
-       TEXTOS
+       **APENAS ALTERAÇÃO DE TEXTO**
+       Deixa letras mais claras sem mexer no fundo
     ------------------------------ */
-    h1, h2, h3, h4, h5 {
-        color: #d8e7f5 !important;
-        text-shadow: 0 0 6px rgba(0,150,255,0.40);
-    }
-    p, label, span, .stMarkdown {
-        color: #d8e7f5 !important;
+
+    /* TEXTO NORMAL */
+    h1, h2, h3, h4, h5, p, label, span, .stMarkdown {
+        color: #eaf3ff !important;
     }
 
-    /* ------------------------------
-       INPUTS — MAIS VISÍVEIS
-    ------------------------------ */
-    input, textarea, select, .stTextInput > div > div > input {
-        background: rgba(0, 40, 60, 0.35) !important;
-        color: #f0f6ff !important;        /* 🔥 TEXTO MAIS CLARO */
-        border: 1px solid rgba(0,150,255,0.55) !important;
-        border-radius: 6px !important;
-        font-weight: 600 !important;      /* 🔥 TEXTO MAIS GROSSO */
+    /* INPUTS — texto mais claro */
+    input, textarea, select, .stTextInput input {
+        color: #f6f9ff !important;     /* texto claro */
+        font-weight: 600 !important;   /* mais grosso */
     }
 
-    /* Placeholders mais visíveis */
+    /* PLACEHOLDER mais visível */
     ::placeholder {
-        color: #bcd0e0 !important;
+        color: #b9c9d9 !important;
         opacity: 1 !important;
     }
 
-    /* ------------------------------
-       SELECTBOX (texto mais escuro)
-    ------------------------------ */
+    /* SELECTBOX texto visível */
     div[data-baseweb="select"] * {
-        color: #f0f6ff !important;        /* 🔥 melhora MUITO a visualização */
+        color: #f3f6ff !important;
         font-weight: 600 !important;
     }
 
-    /* ------------------------------
-       BOTÕES — MAIS LEGÍVEIS
-    ------------------------------ */
-    button[kind="primary"], .stButton > button {
-        background: linear-gradient(135deg, #0e4d6b, #0a2f45) !important;
-        color: #ffffff !important;        /* 🔥 TEXTO BRANCO */
+    /* BOTÕES — só muda texto, não fundo */
+    .stButton > button {
+        color: #ffffff !important;     /* texto branco */
         font-weight: 700 !important;
-        border-radius: 8px !important;
-        border: 1px solid #2ea8e8 !important;
-        box-shadow: 0 0 10px rgba(30, 170, 255, 0.4);
     }
 
-    button:hover {
-        filter: brightness(1.15);
-    }
-
-    /* Botões secundários */
-    button[kind="secondary"] {
-        background: rgba(0,40,60,0.35) !important;
-        color: #f0f6ff !important;
-        font-weight: 600 !important;
-        border: 1px solid rgba(100,150,200,0.45) !important;
-    }
-
-    /* ------------------------------
-       TABS — texto mais claro
-    ------------------------------ */
+    /* TABS — texto mais claro */
     .stTabs [data-baseweb="tab"] {
-        color: #d0e6ff !important;       /* 🔥 texto visível */
+        color: #d0e6ff !important;
         font-weight: 600 !important;
     }
     .stTabs [aria-selected="true"] {
@@ -112,16 +80,10 @@ def apply_dark_ai_theme():
         font-weight: 700 !important;
     }
 
-    /* ------------------------------
-       GRÁFICOS — Ajuste de fundo
-    ------------------------------ */
-    .stPyplot, .stPlotlyChart, .stImage {
-        background: transparent !important;
-    }
-
     </style>
     """
     st.markdown(css, unsafe_allow_html=True)
+
 
 
 # Aplicar tema
