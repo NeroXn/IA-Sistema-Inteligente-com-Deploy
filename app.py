@@ -304,34 +304,30 @@ with tab1:
         st.write(f"Recall (BAD): {recall_score(y_test, y_pred):.4f}")
         st.write(f"F1-score (BAD): {f1_score(y_test, y_pred):.4f}")
 
-    with col2:
-        st.subheader("Matriz de Confusão")
-        cm = confusion_matrix(y_test, y_pred)
-        fig, ax = plt.subplots()
-st.subheader("Matriz de Confusão")
-cm = confusion_matrix(y_test, y_pred)
+with col2:
+    st.subheader("Matriz de Confusão")
+    cm = confusion_matrix(y_test, y_pred)
 
-fig, ax = plt.subplots()
-im = ax.imshow(cm, cmap="Blues")
+    fig, ax = plt.subplots()
+    im = ax.imshow(cm, cmap="Blues")
 
-# Rótulos dos eixos
-ax.set_xlabel("Predição", color="white")
-ax.set_ylabel("Valor real", color="white")
+    # Rótulos dos eixos
+    ax.set_xlabel("Predição", color="white")
+    ax.set_ylabel("Valor real", color="white")
 
-ax.set_xticks([0, 1])
-ax.set_yticks([0, 1])
+    ax.set_xticks([0, 1])
+    ax.set_yticks([0, 1])
 
-ax.set_xticklabels(["0 = GOOD", "1 = BAD"])
-ax.set_yticklabels(["0 = GOOD", "1 = BAD"])
+    ax.set_xticklabels(["0 = GOOD", "1 = BAD"])
+    ax.set_yticklabels(["0 = GOOD", "1 = BAD"])
 
-# Inserir valores dentro da matriz
-for i in range(cm.shape[0]):
-    for j in range(cm.shape[1]):
-        ax.text(j, i, cm[i, j], ha="center", va="center", color="white")
+    # Inserir valores dentro da matriz
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            ax.text(j, i, cm[i, j], ha="center", va="center", color="white")
 
-st.pyplot(fig)
+    st.pyplot(fig)
 
-)
         st.pyplot(fig)
 
     st.subheader("Relatório de Classificação")
