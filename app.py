@@ -308,11 +308,28 @@ with tab1:
         st.subheader("Matriz de Confusão")
         cm = confusion_matrix(y_test, y_pred)
         fig, ax = plt.subplots()
-        ax.imshow(cm, cmap="Blues")
-        ax.set_xticks([0,1]); ax.set_yticks([0,1])
-        for i in range(2):
-            for j in range(2):
-                ax.text(j, i, cm[i,j], ha="center", va="center")
+st.subheader("Matriz de Confusão")
+cm = confusion_matrix(y_test, y_pred)
+
+fig, ax = plt.subplots()
+im = ax.imshow(cm, cmap="Blues")
+
+# Rótulos corretos dos eixos
+ax.set_xlabel("Predição", color="white")
+ax.set_ylabel("Valor real", color="white")
+
+ax.set_xticks([0,1])
+ax.set_yticks([0,1])
+ax.set_xticklabels(["0 = GOOD", "1 = BAD"])
+ax.set_yticklabels(["0 = GOOD", "1 = BAD"])
+
+# Números dentro das células
+for i in range(cm.shape[0]):
+    for j in range(cm.shape[1]):
+        ax.text(j, i, cm[i, j], ha="center", va="center", color="white")
+
+st.pyplot(fig)
+)
         st.pyplot(fig)
 
     st.subheader("Relatório de Classificação")
