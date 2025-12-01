@@ -290,19 +290,20 @@ with tab1:
         pipe_temp.fit(X_train, y_train)
         pipe_clf = pipe_temp
 
-       # ============================================================
-    # AVALIAÇÃO
-    # ============================================================
-    y_pred = pipe_clf.predict(X_test)
+# ============================================================
+# AVALIAÇÃO
+# ============================================================
+y_pred = pipe_clf.predict(X_test)
 
-    st.subheader("Métricas")
-    col1, col2 = st.columns(2)
+st.subheader("Métricas")
+col1, col2 = st.columns(2)
 
-    with col1:
-        st.write(f"Acurácia: {accuracy_score(y_test, y_pred):.4f}")
-        st.write(f"Precisão (BAD): {precision_score(y_test, y_pred):.4f}")
-        st.write(f"Recall (BAD): {recall_score(y_test, y_pred):.4f}")
-        st.write(f"F1-score (BAD): {f1_score(y_test, y_pred):.4f}")
+with col1:
+    st.write(f"Acurácia: {accuracy_score(y_test, y_pred):.4f}")
+    st.write(f"Precisão (BAD): {precision_score(y_test, y_pred):.4f}")
+    st.write(f"Recall (BAD): {recall_score(y_test, y_pred):.4f}")
+    st.write(f"F1-score (BAD): {f1_score(y_test, y_pred):.4f}")
+
 with col2:
     st.subheader("Matriz de Confusão")
 
@@ -327,17 +328,16 @@ with col2:
 
     st.pyplot(fig)
 
+# Agora volta para nível normal
+st.subheader("Relatório de Classificação")
+st.text(classification_report(
+    y_test, y_pred,
+    target_names=["good (baixo risco)", "bad (alto risco)"]
+))
 
-        st.pyplot(fig)
+st.subheader("Importância das Features")
+plot_feature_importance(pipe_clf, X_test)
 
-    st.subheader("Relatório de Classificação")
-    st.text(classification_report(
-        y_test, y_pred,
-        target_names=["good (baixo risco)", "bad (alto risco)"]
-    ))
-
-    st.subheader("Importância das Features")
-    plot_feature_importance(pipe_clf, X_test)
 
     # ============================================================
     # PREVISÃO PARA NOVOS CLIENTES (UPLOAD CSV)
